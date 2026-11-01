@@ -4,7 +4,7 @@ void ERRO(char leitor, int local, bool debug)
 {
     if (!debug)
     {
-        std::cout << "ERRO, inválido\n\n";
+        std::cout << "ERROR, invalid\n\n";
     }
     else
     {
@@ -27,14 +27,14 @@ int main()
     bool debug = false;
     int i = 0;
 
-    std::cout << "Calculadora\n\n";
+    std::cout << "Calculator\n\n";
 
-    erro:
+    error:
     double a = 0;
     double b = 0;
     char simbolo = '\0';
     char leitor = '\0';
-    double divisor = 10;
+    long divisor = 10;
     int local = 1;
     double valor = 0;
     bool valorinicial = false;
@@ -49,7 +49,7 @@ int main()
         if (debug) {std::cout << "debug a: "<< i <<'\n'; i++;}
 
         //debug 1
-        if (leitor == '\n') {ERRO(leitor, local, debug); goto erro;}
+        if (leitor == '\n') {ERRO(leitor, local, debug); goto error;}
 
         if (valorinicial && leitor == '.')
         {
@@ -114,7 +114,7 @@ int main()
         {
             //debug 1
             ERRO(leitor, local, debug);
-            goto erro;
+            goto error;
         }
     }
 
@@ -130,7 +130,7 @@ int main()
         if (leitor == '/' || leitor == '*')
         {
             ERRO(leitor, local, debug);
-            goto erro;
+            goto error;
         }
 
         if (!menosb && simbolo == '*' && leitor == '-' || !menosb && simbolo == '/' && leitor == '-')
@@ -178,7 +178,7 @@ int main()
     if (simbolo != '+' && simbolo != '-' && simbolo != '/' && simbolo != '*')
     {
         ERRO(leitor, local, debug);
-        goto erro;
+        goto error;
     }
 
     i = 0;
@@ -216,7 +216,7 @@ int main()
         {
             //debug 3
             ERRO(leitor, local, debug);
-            goto erro;
+            goto error;
         }
     }
 
@@ -233,6 +233,6 @@ int main()
     if (simbolo == '*') {resultado = a * b;}
     if (simbolo == '/') {resultado = a / b;}
     std::cout << resultado << "\n\n";
-    goto erro;
+    goto error;
     return 1;
 }
