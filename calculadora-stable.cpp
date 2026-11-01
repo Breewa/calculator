@@ -16,6 +16,8 @@ void ERRO(char leitor)
 int main()
 {
     double resultado = 0;
+    bool debug = false;
+    int i = 0;
 
     erro:
     double a = 0;
@@ -31,7 +33,17 @@ int main()
 
     while (1)
     {
+        if (debug) {std::cout << "debug a: "<< debug <<'\n'; i++;}
+
         if (leitor == '\n') {ERRO(leitor); goto erro;}
+
+        if (!valorinicial && leitor == 'r')
+        {
+            a = resultado;
+            leitor = std::cin.get();
+            simbolo = leitor;
+            break;
+        }
 
         if (!valorinicial && !menos && leitor == '-')
         {
@@ -74,8 +86,11 @@ int main()
         }
     }
 
+    i = 0;
     while (1)
     {
+        if (debug) {std::cout << "debug simbolo: "<< debug <<'\n'; i++;}
+
         if (simbolo != '+' && simbolo != '-' && simbolo != '/' && simbolo != '*')
         {
             ERRO(leitor);
@@ -107,10 +122,15 @@ int main()
         {
             break;
         }
+
+        leitor = std::cin.get();
     }
 
+    i = 0;
     while (leitor != '\n')
     {
+        if (debug) {std::cout << "debug b: "<< debug <<'\n'; i++;}
+        
         if (leitor >= '0' && leitor <= '9')
         {
             b = b * 10;
@@ -131,7 +151,7 @@ int main()
     if (simbolo == '-') {resultado = a - b;}
     if (simbolo == '*') {resultado = a * b;}
     if (simbolo == '/') {resultado = a / b;}
-    std::cout << resultado;
+    std::cout << resultado << "\n\n";
     goto erro;
     return 1;
 }
