@@ -1,8 +1,16 @@
 #include <iostream>
 
-void ERRO(char leitor)
+void ERRO(char leitor, int local, bool debug)
 {
-    std::cout << "ERRO, inválido\n\n";
+    if (!debug)
+    {
+        std::cout << "ERRO, inválido\n\n";
+    }
+    else
+    {
+        std::cout << "ERRO, inválido debug: " << local << "\n\n";
+    }
+
     if (leitor == '\n')
     {
         return;
@@ -19,23 +27,35 @@ int main()
     bool debug = false;
     int i = 0;
 
+    std::cout << "Calculadora\n\n";
+
     erro:
     double a = 0;
     double b = 0;
     char simbolo = '\0';
     char leitor = '\0';
-    int divisor = 0;
+    long divisor = 10;
+    int local = 1;
     double valor = 0;
     bool valorinicial = false;
     bool menos = false;
+    bool ponto = false;
 
     std::cin >> leitor;
 
     while (1)
     {
-        if (debug) {std::cout << "debug a: "<< debug <<'\n'; i++;}
+        if (debug) {std::cout << "debug a: "<< i <<'\n'; i++;}
 
-        if (leitor == '\n') {ERRO(leitor); goto erro;}
+        //debug 1
+        if (leitor == '\n') {ERRO(leitor, local, debug); goto erro;}
+
+        if (valorinicial && leitor == '.')
+        {
+            ponto = true;
+            leitor = std::cin.get();
+            continue;
+        }
 
         if (!valorinicial && leitor == 'r')
         {
@@ -63,8 +83,8 @@ int main()
         {
             if (leitor == '+' || leitor == '-' || leitor == '/' || leitor == '*')
             {
-                valorinicial = false;
                 simbolo = leitor;
+                std::cout << "simbolo: " << simbolo << '\n';
                 leitor = std::cin.get();
                 break;
             }
@@ -72,6 +92,17 @@ int main()
 
         if (leitor >= '0' && leitor <= '9')
         {
+
+            if (ponto)
+            {
+                valor = leitor - '0';
+                valor = valor / divisor;
+                a = a + valor;
+                divisor = divisor * 10;
+                leitor = std::cin.get();
+                continue;
+            }
+
             valorinicial = true;
             a = a * 10;
             leitor = leitor - '0';
@@ -81,28 +112,32 @@ int main()
         }
         else
         {
-            ERRO(leitor);
+            //debug 1
+            ERRO(leitor, local, debug);
             goto erro;
         }
     }
 
+    valorinicial = false;
+    ponto = false;
     i = 0;
+    local++;
+    divisor = 10;
     while (1)
     {
-        if (debug) {std::cout << "debug simbolo: "<< debug <<'\n'; i++;}
+        if (debug) {std::cout << "debug simbolo: "<< i <<'\n'; i++;}
 
-        if (simbolo != '+' && simbolo != '-' && simbolo != '/' && simbolo != '*')
+        if (leitor == '/' || leitor == '*')
         {
-            ERRO(leitor);
+            ERRO(leitor, local, debug);
             goto erro;
         }
 
         if (simbolo == '/' || simbolo == '*')
         {
-            simbolo = leitor;
-            leitor = std::cin.get();
             break;
         }
+
 
         if (leitor == '-' && simbolo == '+')
         {
@@ -126,13 +161,38 @@ int main()
         leitor = std::cin.get();
     }
 
+    //debug 2
+    if (simbolo != '+' && simbolo != '-' && simbolo != '/' && simbolo != '*')
+    {
+        ERRO(leitor, local, debug);
+        goto erro;
+    }
+
     i = 0;
+    local++;
     while (leitor != '\n')
     {
-        if (debug) {std::cout << "debug b: "<< debug <<'\n'; i++;}
+        if (debug) {std::cout << "debug b: "<< i <<'\n'; i++;}
         
+        if (valorinicial && leitor == '.')
+        {
+            ponto = true;
+            leitor = std::cin.get();
+            continue;
+        }
+
         if (leitor >= '0' && leitor <= '9')
         {
+            if (ponto)
+            {
+                valor = leitor - '0';
+                valor = valor / divisor;
+                b = b + valor;
+                divisor = divisor * 10;
+                leitor = std::cin.get();
+                continue;
+            }
+            valorinicial = true;
             b = b * 10;
             leitor = leitor - '0';
             b = b + leitor;
@@ -141,12 +201,19 @@ int main()
         }
         else
         {
-            ERRO(leitor);
+            //debug 3
+            ERRO(leitor, local, debug);
             goto erro;
         }
     }
 
     if (menos) {a = a * -1;}
+
+    if (debug)
+    {
+        std::cout << "a: " << a << "\nb: " << b << "\nsimbolo: " << simbolo << '\n';
+    }
+
     if (simbolo == '+') {resultado = a + b;}
     if (simbolo == '-') {resultado = a - b;}
     if (simbolo == '*') {resultado = a * b;}
