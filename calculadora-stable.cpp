@@ -34,11 +34,12 @@ int main()
     double b = 0;
     char simbolo = '\0';
     char leitor = '\0';
-    long divisor = 10;
+    double divisor = 10;
     int local = 1;
     double valor = 0;
     bool valorinicial = false;
     bool menos = false;
+    bool menosb = false;
     bool ponto = false;
 
     std::cin >> leitor;
@@ -84,7 +85,6 @@ int main()
             if (leitor == '+' || leitor == '-' || leitor == '/' || leitor == '*')
             {
                 simbolo = leitor;
-                std::cout << "simbolo: " << simbolo << '\n';
                 leitor = std::cin.get();
                 break;
             }
@@ -133,11 +133,24 @@ int main()
             goto erro;
         }
 
+        if (!menosb && simbolo == '*' && leitor == '-' || !menosb && simbolo == '/' && leitor == '-')
+        {
+            menosb = true;
+            leitor = std::cin.get();
+            continue;
+        }
+
+        if (menosb && simbolo == '*' && leitor == '-' || menosb && simbolo == '/' && leitor == '-')
+        {
+            menosb = false;
+            leitor = std::cin.get();
+            continue;
+        }
+
         if (simbolo == '/' || simbolo == '*')
         {
             break;
         }
-
 
         if (leitor == '-' && simbolo == '+')
         {
@@ -208,6 +221,7 @@ int main()
     }
 
     if (menos) {a = a * -1;}
+    if (menosb) {b = b * -1;}
 
     if (debug)
     {
