@@ -51,6 +51,8 @@ int main()
         //debug 1
         if (leitor == '\n') {ERRO(leitor, local, debug); goto error;}
 
+        if (leitor == ' ') {leitor = std::cin.get(); continue;}
+
         if (valorinicial && !ponto && leitor == '.')
         {
             ponto = true;
@@ -128,6 +130,8 @@ int main()
     {
         if (debug) {std::cout << "debug simbolo: "<< i <<'\n'; i++;}
 
+        if (leitor == ' ') {leitor = std::cin.get(); continue;}
+
         if (leitor == '/' || leitor == '*')
         {
             ERRO(leitor, local, debug);
@@ -187,6 +191,8 @@ int main()
     while (leitor != '\n')
     {
         if (debug) {std::cout << "debug b: "<< i <<'\n'; i++;}
+
+        if (leitor == ' ') {leitor = std::cin.get(); continue;}
         
         if (valorinicial && !ponto && leitor == '.')
         {
