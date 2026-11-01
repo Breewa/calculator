@@ -201,21 +201,6 @@ int main()
             continue;
         }
 
-        if (valorinicial)
-        {
-            if (leitor == '+' || leitor == '-' || leitor == '*' || leitor == '/')
-            {
-                if (simbolo == '+') {a = a + b;}
-                if (simbolo == '-') {a = a - b;}
-                if (simbolo == '*') {a = a * b;}
-                if (simbolo == '/') {a = a / b;}
-                simbolo = leitor;
-                leitor = std::cin.get();
-                b = 0;
-                goto simbolo; 
-            }
-        }
-
         if (leitor >= '0' && leitor <= '9')
         {
             if (ponto)
