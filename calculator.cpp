@@ -48,6 +48,8 @@ int main()
     {
         if (debug) {std::cout << "debug a: "<< i <<'\n'; i++;}
 
+	if (leitor == ' ') {leitor = std::cin.get(); continue;}
+
         //debug 1
         if (leitor == '\n') {ERRO(leitor, local, debug); goto error;}
 
@@ -130,6 +132,8 @@ int main()
     {
         if (debug) {std::cout << "debug simbolo: "<< i <<'\n'; i++;}
 
+	if (leitor == ' ') {leitor = std::cin.get(); continue;}
+
         if (leitor == ' ') {leitor = std::cin.get(); continue;}
 
         if (leitor == '/' || leitor == '*')
@@ -191,6 +195,8 @@ int main()
     while (leitor != '\n')
     {
         if (debug) {std::cout << "debug b: "<< i <<'\n'; i++;}
+
+	if (leitor == ' ') {leitor = std::cin.get(); continue;}
 
         if (leitor == ' ') {leitor = std::cin.get(); continue;}
         
