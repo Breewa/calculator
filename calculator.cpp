@@ -51,7 +51,7 @@ int main()
         //debug 1
         if (leitor == '\n') {ERRO(leitor, local, debug); goto error;}
 
-        if (valorinicial && leitor == '.')
+        if (valorinicial && !ponto && leitor == '.')
         {
             ponto = true;
             leitor = std::cin.get();
@@ -118,10 +118,11 @@ int main()
         }
     }
 
+    simbolo:
     valorinicial = false;
     ponto = false;
     i = 0;
-    local++;
+    local = 2;
     divisor = 10;
     while (1)
     {
@@ -182,16 +183,31 @@ int main()
     }
 
     i = 0;
-    local++;
+    local = 3;
     while (leitor != '\n')
     {
         if (debug) {std::cout << "debug b: "<< i <<'\n'; i++;}
         
-        if (valorinicial && leitor == '.')
+        if (valorinicial && !ponto && leitor == '.')
         {
             ponto = true;
             leitor = std::cin.get();
             continue;
+        }
+
+        if (valorinicial)
+        {
+            if (leitor == '+' || leitor == '-' || leitor == '*' || leitor == '/')
+            {
+                if (simbolo == '+') {a = a + b;}
+                if (simbolo == '-') {a = a - b;}
+                if (simbolo == '*') {a = a * b;}
+                if (simbolo == '/') {a = a / b;}
+                simbolo = leitor;
+                leitor = std::cin.get();
+                b = 0;
+                goto simbolo; 
+            }
         }
 
         if (leitor >= '0' && leitor <= '9')
